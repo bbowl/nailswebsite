@@ -1,0 +1,50 @@
+[
+  {
+    "title_en": "Classic Manicure",
+    "desc_en": "Shape, cuticle care, a luxurious hand massage, and a flawless polish finish.",
+    "price_en": "from €35",
+    "title_lt": "Klasikinis manikiūras",
+    "desc_lt": "Formavimas, odelių priežiūra, prabangus rankų masažas ir nepriekaištinga lako danga.",
+    "price_lt": "nuo €35"
+  },
+  {
+    "title_en": "Gel Manicure",
+    "desc_en": "Long-lasting gel colour, chip-free for up to three weeks with a glossy finish.",
+    "price_en": "from €50",
+    "title_lt": "Gelinis manikiūras",
+    "desc_lt": "Ilgalaikė gelio spalva, nesiskelianti iki trijų savaičių, blizgi danga.",
+    "price_lt": "nuo €50"
+  },
+  {
+    "title_en": "Builder Gel / Extensions",
+    "desc_en": "Strengthening overlay or tip extensions for length, shape and resilience.",
+    "price_en": "from €75",
+    "title_lt": "Statybinis gelis / pailginimas",
+    "desc_lt": "Stiprinanti danga ar pailginimai ilgiui, formai ir atsparumui.",
+    "price_lt": "nuo €75"
+  },
+  {
+    "title_en": "Spa Pedicure",
+    "desc_en": "Soak, exfoliation, callus care, massage, and polish — a full reset for tired feet.",
+    "price_en": "from €55",
+    "title_lt": "SPA pedikiūras",
+    "desc_lt": "Mirkymas, šveitimas, nuospaudų priežiūra, masažas ir lakavimas – pilna pavargusių pėdų atgaiva.",
+    "price_lt": "nuo €55"
+  },
+  {
+    "title_en": "Nail Art",
+    "desc_en": "Hand-painted detail, French tips, chrome, or minimalist accents. Bring the inspiration.",
+    "price_en": "from €10 / nail",
+    "title_lt": "Nagų dizainas",
+    "desc_lt": "Ranka pieštos detalės, prancūziškas manikiūras, chromas ar minimalistiniai akcentai. Tavo idėja – mano darbas.",
+    "price_lt": "nuo €10 / nagas"
+  },
+  {
+    "title_en": "Soak-off & Repair",
+    "desc_en": "Gentle removal of existing gel or acrylic with a nourishing treatment for healthy nails.",
+    "price_en": "from €20",
+    "title_lt": "Nuėmimas ir atstatymas",
+    "desc_lt": "Švelnus gelio ar akrilo nuėmimas su maitinančia procedūra sveikiems nagams.",
+    "price_lt": "nuo €20"
+  }
+]

@@ -249,8 +249,28 @@
     });
   });
 
-  // Apply on load
-  applyLang(detectLang());
+  // Load services.json first, then apply language
+  fetch('services.json')
+    .then(function(r) { return r.ok ? r.json() : null; })
+    .then(function(data) {
+      if (data && data.length) {
+        var keys = ['svc1','svc2','svc3','svc4','svc5','svc6'];
+        data.forEach(function(svc, i) {
+          var k = keys[i];
+          if (!k) return;
+          ['en','lt'].forEach(function(lang) {
+            translations[lang][k+'_title'] = svc['title_'+lang] || translations[lang][k+'_title'];
+            translations[lang][k+'_desc']  = svc['desc_' +lang] || translations[lang][k+'_desc'];
+            translations[lang][k+'_price'] = svc['price_'+lang] || translations[lang][k+'_price'];
+          });
+        });
+      }
+    })
+    .catch(function(){})
+    .finally(function() { applyLang(detectLang()); });
+
+  // Fallback if fetch not supported
+  if (typeof fetch === 'undefined') applyLang(detectLang());
 
   /* ---------------- Year in footer ---------------- */
   var yearEl = document.getElementById('year');
