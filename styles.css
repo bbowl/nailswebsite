@@ -367,7 +367,7 @@ p  { margin: 0 0 1em; color: var(--ink); }
   content: "";
   position: absolute; inset: 0;
   background: linear-gradient(135deg, var(--nude), var(--taupe));
-  border-radius: 50%;
+  border-radius: var(--radius-l);
   transform: translate(14px, 14px);
   z-index: 0;
 }
@@ -375,9 +375,9 @@ p  { margin: 0 0 1em; color: var(--ink); }
   position: relative;
   z-index: 1;
   width: 100%;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 4 / 5;
   object-fit: cover;
-  border-radius: 50%;
+  border-radius: var(--radius-l);
   box-shadow: var(--shadow-md);
 }
 .about__body h2 em { color: var(--rose); }
