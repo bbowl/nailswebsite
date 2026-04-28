@@ -1,5 +1,7 @@
 HOSTINGER_DEPLOY.md
 .DS_Store
 admin.php
+panel-*.php
+.htpasswd
 docker-compose.yml
 php.ini

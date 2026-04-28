@@ -1,0 +1,15 @@
+# Block direct access to sensitive files
+<Files ".htpasswd">
+    Require all denied
+</Files>
+<Files "services.json">
+    Require all denied
+</Files>
+
+# Protect admin panel with HTTP Basic Auth
+<Files "panel-zzce8.php">
+    AuthType Basic
+    AuthName "Admin"
+    AuthUserFile /home/YOUR_HOSTINGER_USERNAME/public_html/.htpasswd
+    Require valid-user
+</Files>
