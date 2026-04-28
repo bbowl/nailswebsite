@@ -96,6 +96,18 @@
       about_badge3:     "✦ Cruelty-free products",
       about_badge4:     "✦ By appointment only",
 
+      reviews_eyebrow:      "Client Reviews",
+      reviews_title:        "What Clients Say",
+      reviews_lede:         "Honest words from people who've sat in my chair.",
+      reviews_empty:        "No reviews yet — be the first!",
+      reviews_form_title:   "Leave a Review",
+      reviews_form_name:    "Your name",
+      reviews_form_email:   "Email (not shown publicly)",
+      reviews_form_rating:  "Rating",
+      reviews_form_text:    "Your review",
+      reviews_form_submit:  "Submit review",
+      reviews_thanks:       "Thank you! Your review will appear after approval.",
+
       contact_eyebrow:      "Say Hello",
       contact_title:        "Contact",
       contact_lede:         "The fastest way to reach me is Instagram DM. For bookings, please use the calendar below.",
@@ -174,6 +186,18 @@
       about_badge3:     "✦ Produktai be žiaurumo gyvūnams",
       about_badge4:     "✦ Tik pagal išankstinę registraciją",
 
+      reviews_eyebrow:      "Atsiliepimai",
+      reviews_title:        "Ką sako klientai",
+      reviews_lede:         "Nuoširdūs žodžiai iš žmonių, kurie buvo mano studijoje.",
+      reviews_empty:        "Atsiliepimų kol kas nėra — būkite pirmas!",
+      reviews_form_title:   "Palikite atsiliepimą",
+      reviews_form_name:    "Jūsų vardas",
+      reviews_form_email:   "El. paštas (nerodomas viešai)",
+      reviews_form_rating:  "Įvertinimas",
+      reviews_form_text:    "Jūsų atsiliepimas",
+      reviews_form_submit:  "Pateikti atsiliepimą",
+      reviews_thanks:       "Ačiū! Jūsų atsiliepimas pasirodys po patvirtinimo.",
+
       contact_eyebrow:      "Susisiekime",
       contact_title:        "Kontaktai",
       contact_lede:         "Greičiausias būdas susisiekti – Instagram žinutė. Dėl rezervacijų prašome naudotis kalendoriumi apačioje.",
@@ -249,6 +273,125 @@
     });
   });
 
+  /* ---------------- Reviews ---------------- */
+  function renderStars(rating) {
+    var html = '';
+    for (var i = 1; i <= 5; i++) {
+      if (rating >= i)          html += '<span class="star star--full">★</span>';
+      else if (rating >= i - 0.5) html += '<span class="star star--half">★</span>';
+      else                       html += '<span class="star star--empty">★</span>';
+    }
+    return '<span class="stars-display">' + html + '</span>';
+  }
+
+  function loadReviews() {
+    var list = document.getElementById('reviews-list');
+    if (!list) return;
+    fetch('reviews.json')
+      .then(function(r) { return r.ok ? r.json() : []; })
+      .then(function(data) {
+        if (!data || !data.length) {
+          var lang = document.documentElement.getAttribute('lang') || 'en';
+          var t = translations[lang] || translations.en;
+          list.innerHTML = '<p class="reviews__empty">' + (t.reviews_empty || 'No reviews yet.') + '</p>';
+          return;
+        }
+        list.innerHTML = data.map(function(r) {
+          return '<article class="review-card reveal">' +
+            '<div class="review-card__header">' +
+              '<span class="review-card__name">' + r.name + '</span>' +
+              '<span class="review-card__date">' + r.date + '</span>' +
+            '</div>' +
+            renderStars(r.rating) +
+            '<p class="review-card__text">' + r.text + '</p>' +
+          '</article>';
+        }).join('');
+        list.querySelectorAll('.review-card').forEach(function(el) {
+          if (svcObserver) svcObserver.observe(el);
+          else el.classList.add('is-visible');
+        });
+      })
+      .catch(function() { /* silent */ });
+  }
+
+  function initStarInput() {
+    var container  = document.getElementById('star-input');
+    var hidden     = document.getElementById('review-rating');
+    if (!container || !hidden) return;
+    var selected = 5;
+
+    function paint(val) {
+      container.querySelectorAll('.star-btn').forEach(function(s, idx) {
+        s.classList.toggle('full',  val >= idx + 1);
+        s.classList.toggle('half',  val >= idx + 0.5 && val < idx + 1);
+        s.classList.toggle('empty', val < idx + 0.5);
+      });
+    }
+
+    for (var i = 1; i <= 5; i++) {
+      (function(n) {
+        var s = document.createElement('span');
+        s.className = 'star-btn';
+        s.innerHTML = '★';
+        s.addEventListener('mousemove', function(e) {
+          var rect = s.getBoundingClientRect();
+          paint(e.clientX < rect.left + rect.width / 2 ? n - 0.5 : n);
+        });
+        s.addEventListener('click', function(e) {
+          var rect = s.getBoundingClientRect();
+          selected = e.clientX < rect.left + rect.width / 2 ? n - 0.5 : n;
+          hidden.value = selected;
+          paint(selected);
+        });
+        container.appendChild(s);
+      })(i);
+    }
+    container.addEventListener('mouseleave', function() { paint(selected); });
+    paint(selected);
+  }
+
+  function initReviewForm() {
+    var form      = document.getElementById('review-form');
+    var textArea  = document.getElementById('review-text');
+    var counter   = document.getElementById('review-char-count');
+    var errEl     = document.getElementById('review-error');
+    var thanksEl  = document.getElementById('review-thanks');
+    if (!form) return;
+
+    if (textArea && counter) {
+      textArea.addEventListener('input', function() {
+        var len = this.value.length;
+        counter.textContent = len + '/200';
+        counter.style.color = len > 180 ? '#c0392b' : '';
+      });
+    }
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      errEl.style.display = 'none';
+      var btn = form.querySelector('button[type=submit]');
+      btn.disabled = true;
+
+      fetch('submit_review.php', { method: 'POST', body: new FormData(form) })
+        .then(function(r) { return r.json(); })
+        .then(function(res) {
+          if (res.ok) {
+            form.style.display = 'none';
+            thanksEl.style.display = 'block';
+          } else {
+            errEl.textContent = res.error;
+            errEl.style.display = 'block';
+            btn.disabled = false;
+          }
+        })
+        .catch(function() {
+          errEl.textContent = 'Something went wrong. Please try again.';
+          errEl.style.display = 'block';
+          btn.disabled = false;
+        });
+    });
+  }
+
   // Render service cards from data for a given language
   var servicesData = [];
   var svcObserver = null;
@@ -290,6 +433,10 @@
   // Fallback if fetch not supported
   if (typeof fetch === 'undefined') applyLang(detectLang());
 
+  loadReviews();
+  initStarInput();
+  initReviewForm();
+
   /* ---------------- Year in footer ---------------- */
   var yearEl = document.getElementById('year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
@@ -328,7 +475,7 @@
   onScroll();
 
   /* ---------------- Reveal on scroll ---------------- */
-  var revealEls = document.querySelectorAll('.section__head, .service-card, .gallery__item, .about__media, .about__body, .contact__card, .book__frame, .location__info, .location__map');
+  var revealEls = document.querySelectorAll('.section__head, .service-card, .gallery__item, .about__media, .about__body, .review-card, .review-form-wrap, .contact__card, .book__frame, .location__info, .location__map');
   revealEls.forEach(function (el) { el.classList.add('reveal'); });
 
   if ('IntersectionObserver' in window) {

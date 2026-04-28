@@ -5,3 +5,5 @@ panel-*.php
 .htpasswd
 docker-compose.yml
 php.ini
+submit_review.php
+reviews_pending.json
