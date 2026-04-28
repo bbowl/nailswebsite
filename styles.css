@@ -306,19 +306,35 @@ p  { margin: 0 0 1em; color: var(--ink); }
   border: 1px solid rgba(107, 79, 58, .06);
   transition: transform .35s var(--ease), box-shadow .35s var(--ease);
   position: relative;
+  display: flex;
+  flex-direction: column;
 }
 .service-card:hover {
   transform: translateY(-4px);
   box-shadow: var(--shadow-md);
 }
-.service-card h3 { color: var(--brown-deep); }
-.service-card__desc { color: var(--muted); font-size: .98rem; margin-bottom: 1.2em; }
+.service-card h3 {
+  color: var(--brown-deep);
+  font-size: 1.15rem;
+  letter-spacing: .01em;
+  margin-bottom: .55em;
+}
+.service-card__desc {
+  color: var(--muted);
+  font-size: .95rem;
+  line-height: 1.6;
+  margin-bottom: 0;
+  flex: 1;
+}
 .service-card__price {
   font-family: var(--serif);
-  font-size: 1.35rem;
-  color: var(--rose);
+  font-size: 1.25rem;
+  color: var(--brown-deep);
   font-style: italic;
   margin: 0;
+  padding-top: 20px;
+  margin-top: 20px;
+  border-top: 1px solid rgba(107, 79, 58, .1);
 }
 
 /* ---------- Gallery ---------- */
@@ -678,8 +694,8 @@ p  { margin: 0 0 1em; color: var(--ink); }
   body { font-size: 17.5px; line-height: 1.7; }
 
   .section__lede      { font-size: 1.1rem; line-height: 1.7; }
-  .service-card__desc { font-size: 1.05rem; line-height: 1.65; }
-  .service-card__price{ font-size: 1.4rem; }
+  .service-card__desc { font-size: 1rem; line-height: 1.65; }
+  .service-card__price{ font-size: 1.3rem; }
 
   .hero__lede         { font-size: 1.12rem; line-height: 1.65; }
 
