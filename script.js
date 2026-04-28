@@ -249,23 +249,41 @@
     });
   });
 
+  // Render service cards from data for a given language
+  var servicesData = [];
+  var svcObserver = null;
+  function renderServices(lang) {
+    var grid = document.getElementById('services-grid');
+    if (!grid || !servicesData.length) return;
+    grid.innerHTML = servicesData.map(function(svc) {
+      var title = svc['title_' + lang] || svc['title_en'] || '';
+      var desc  = svc['desc_'  + lang] || svc['desc_en']  || '';
+      var price = svc['price_' + lang] || svc['price_en'] || '';
+      return '<article class="service-card">' +
+        '<h3>' + title + '</h3>' +
+        '<p class="service-card__desc">' + desc + '</p>' +
+        '<p class="service-card__price">' + price + '</p>' +
+        '</article>';
+    }).join('');
+    // Observe new cards for reveal animation
+    grid.querySelectorAll('.service-card').forEach(function(el) {
+      el.classList.add('reveal');
+      if (svcObserver) { svcObserver.observe(el); }
+      else { el.classList.add('is-visible'); }
+    });
+  }
+
+  // Patch applyLang to also re-render services
+  var _applyLang = applyLang;
+  applyLang = function(lang) {
+    _applyLang(lang);
+    renderServices(lang);
+  };
+
   // Load services.json first, then apply language
   fetch('services.json')
     .then(function(r) { return r.ok ? r.json() : null; })
-    .then(function(data) {
-      if (data && data.length) {
-        var keys = ['svc1','svc2','svc3','svc4','svc5','svc6'];
-        data.forEach(function(svc, i) {
-          var k = keys[i];
-          if (!k) return;
-          ['en','lt'].forEach(function(lang) {
-            translations[lang][k+'_title'] = svc['title_'+lang] || translations[lang][k+'_title'];
-            translations[lang][k+'_desc']  = svc['desc_' +lang] || translations[lang][k+'_desc'];
-            translations[lang][k+'_price'] = svc['price_'+lang] || translations[lang][k+'_price'];
-          });
-        });
-      }
-    })
+    .then(function(data) { if (data && data.length) servicesData = data; })
     .catch(function(){})
     .finally(function() { applyLang(detectLang()); });
 
@@ -323,6 +341,7 @@
       });
     }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
     revealEls.forEach(function (el) { io.observe(el); });
+    svcObserver = io;
   } else {
     revealEls.forEach(function (el) { el.classList.add('is-visible'); });
   }
