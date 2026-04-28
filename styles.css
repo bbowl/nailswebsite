@@ -448,12 +448,6 @@ p  { margin: 0 0 1em; color: var(--ink); }
   box-shadow: var(--shadow-md);
   min-height: 360px;
 }
-.book__placeholder {
-  padding: 72px 40px;
-  text-align: center;
-}
-.book__placeholder h3 { color: var(--brown-deep); }
-.book__placeholder p { color: var(--muted); max-width: 48ch; margin: 0 auto 1.6em; }
 
 /* ---------- Location ---------- */
 .location { background: var(--cream); }
@@ -667,8 +661,6 @@ p  { margin: 0 0 1em; color: var(--ink); }
   .nav__name { display: none; }
   .service-card { padding: 30px 24px; }
   .contact__card { padding: 32px 24px; }
-  .book__placeholder { padding: 48px 24px; }
-
   /* Footer links wrap nicely on narrow phones */
   .footer__links { flex-wrap: wrap; justify-content: center; gap: 14px; }
 }
