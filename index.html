@@ -83,38 +83,7 @@
         <p class="section__lede" data-i18n="services_lede">A curated list of what I offer. Prices are a starting point — final pricing depends on length, design, and extras.</p>
       </div>
 
-      <div class="services__grid">
-        <article class="service-card">
-          <h3 data-i18n="svc1_title">Classic Manicure</h3>
-          <p class="service-card__desc" data-i18n="svc1_desc">Shape, cuticle care, a luxurious hand massage, and a flawless polish finish.</p>
-          <p class="service-card__price" data-i18n="svc1_price">from €35</p>
-        </article>
-        <article class="service-card">
-          <h3 data-i18n="svc2_title">Gel Manicure</h3>
-          <p class="service-card__desc" data-i18n="svc2_desc">Long-lasting gel colour, chip-free for up to three weeks with a glossy finish.</p>
-          <p class="service-card__price" data-i18n="svc2_price">from €50</p>
-        </article>
-        <article class="service-card">
-          <h3 data-i18n="svc3_title">Builder Gel / Extensions</h3>
-          <p class="service-card__desc" data-i18n="svc3_desc">Strengthening overlay or tip extensions for length, shape and resilience.</p>
-          <p class="service-card__price" data-i18n="svc3_price">from €75</p>
-        </article>
-        <article class="service-card">
-          <h3 data-i18n="svc4_title">Spa Pedicure</h3>
-          <p class="service-card__desc" data-i18n="svc4_desc">Soak, exfoliation, callus care, massage, and polish — a full reset for tired feet.</p>
-          <p class="service-card__price" data-i18n="svc4_price">from €55</p>
-        </article>
-        <article class="service-card">
-          <h3 data-i18n="svc5_title">Nail Art</h3>
-          <p class="service-card__desc" data-i18n="svc5_desc">Hand-painted detail, French tips, chrome, or minimalist accents. Bring the inspiration.</p>
-          <p class="service-card__price" data-i18n="svc5_price">from €10 / nail</p>
-        </article>
-        <article class="service-card">
-          <h3 data-i18n="svc6_title">Soak-off &amp; Repair</h3>
-          <p class="service-card__desc" data-i18n="svc6_desc">Gentle removal of existing gel or acrylic with a nourishing treatment for healthy nails.</p>
-          <p class="service-card__price" data-i18n="svc6_price">from €20</p>
-        </article>
-      </div>
+      <div class="services__grid" id="services-grid"></div>
     </div>
   </section>
 
@@ -127,18 +96,7 @@
         <p class="section__lede" data-i18n-html="gallery_lede_html">A glimpse of my latest work.</p>
       </div>
 
-      <div class="gallery__grid">
-        <button class="gallery__item" data-src="images/1.jpg"><img src="images/1.jpg" alt="Sand Studio nail work — 1" loading="lazy" /></button>
-        <button class="gallery__item" data-src="images/2.jpg"><img src="images/2.jpg" alt="Sand Studio nail work — 2" loading="lazy" /></button>
-        <button class="gallery__item" data-src="images/3.jpg"><img src="images/3.jpg" alt="Sand Studio nail work — 3" loading="lazy" /></button>
-        <button class="gallery__item" data-src="images/4.jpg"><img src="images/4.jpg" alt="Sand Studio nail work — 4" loading="lazy" /></button>
-        <button class="gallery__item" data-src="images/5.jpg"><img src="images/5.jpg" alt="Sand Studio nail work — 5" loading="lazy" /></button>
-        <button class="gallery__item" data-src="images/6.jpg"><img src="images/6.jpg" alt="Sand Studio nail work — 6" loading="lazy" /></button>
-        <button class="gallery__item" data-src="images/7.jpg"><img src="images/7.jpg" alt="Sand Studio nail work — 7" loading="lazy" /></button>
-        <button class="gallery__item" data-src="images/8.jpg"><img src="images/8.jpg" alt="Sand Studio nail work — 8" loading="lazy" /></button>
-        <button class="gallery__item" data-src="images/9.jpg"><img src="images/9.jpg" alt="Sand Studio nail work — 9" loading="lazy" /></button>
-        <button class="gallery__item" data-src="images/10.jpg"><img src="images/10.jpg" alt="Sand Studio nail work — 10" loading="lazy" /></button>
-      </div>
+      <div class="gallery__grid" id="gallery-grid"></div>
     </div>
   </section>
 
@@ -171,6 +129,50 @@
           <li data-i18n="about_badge3">✦ Cruelty-free products</li>
           <li data-i18n="about_badge4">✦ By appointment only</li>
         </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ REVIEWS ============ -->
+  <section class="section reviews" id="reviews">
+    <div class="container">
+      <div class="section__head">
+        <p class="eyebrow" data-i18n="reviews_eyebrow">Client Reviews</p>
+        <h2 class="section__title" data-i18n="reviews_title">What Clients Say</h2>
+        <p class="section__lede" data-i18n="reviews_lede">Honest words from people who've sat in my chair.</p>
+      </div>
+
+      <div class="reviews__list" id="reviews-list"></div>
+
+      <div class="review-form-wrap">
+        <h3 data-i18n="reviews_form_title">Leave a Review</h3>
+        <form id="review-form" novalidate>
+          <div class="review-form__row">
+            <div class="review-form__field">
+              <label for="review-name" data-i18n="reviews_form_name">Your name</label>
+              <input type="text" id="review-name" name="name" required maxlength="80" autocomplete="name" />
+            </div>
+            <div class="review-form__field">
+              <label for="review-email" data-i18n="reviews_form_email">Email (not shown publicly)</label>
+              <input type="email" id="review-email" name="email" required maxlength="120" autocomplete="email" />
+            </div>
+          </div>
+          <div class="review-form__field">
+            <label data-i18n="reviews_form_rating">Rating</label>
+            <div class="star-input" id="star-input"></div>
+            <input type="hidden" id="review-rating" name="rating" value="5" />
+          </div>
+          <div class="review-form__field">
+            <label for="review-text" data-i18n="reviews_form_text">Your review</label>
+            <textarea id="review-text" name="text" rows="3" required maxlength="200"></textarea>
+            <span class="review-char-count" id="review-char-count">0/200</span>
+          </div>
+          <p class="review-form__error" id="review-error"></p>
+          <button type="submit" class="btn btn--primary" data-i18n="reviews_form_submit">Submit review</button>
+        </form>
+        <div class="review-thanks" id="review-thanks" data-i18n="reviews_thanks">
+          Thank you! Your review will appear after approval.
+        </div>
       </div>
     </div>
   </section>

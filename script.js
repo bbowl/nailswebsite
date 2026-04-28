@@ -5,6 +5,42 @@
 (function () {
   'use strict';
 
+  /* ---------------- Dynamic gallery loader ---------------- */
+  (function loadGallery() {
+    var grid = document.getElementById('gallery-grid');
+    if (!grid) return;
+    var loaded = [], pending = 100;
+
+    function addItem(n) {
+      var btn = document.createElement('button');
+      btn.className = 'gallery__item';
+      btn.setAttribute('data-src', 'images/' + n + '.jpg');
+      var img = document.createElement('img');
+      img.src = 'images/' + n + '.jpg';
+      img.alt = 'Sand Studio nail work — ' + n;
+      img.loading = 'lazy';
+      btn.appendChild(img);
+      grid.appendChild(btn);
+    }
+
+    function finish() {
+      if (--pending === 0) {
+        loaded.sort(function(a, b) { return a - b; });
+        loaded.forEach(addItem);
+        if (typeof initLightbox === 'function') initLightbox();
+      }
+    }
+
+    for (var i = 1; i <= 100; i++) {
+      (function(n) {
+        var img = new Image();
+        img.onload  = function() { loaded.push(n); finish(); };
+        img.onerror = finish;
+        img.src = 'images/' + n + '.jpg';
+      })(i);
+    }
+  })();
+
   /* ---------------- i18n dictionary ---------------- */
   var translations = {
     en: {
@@ -59,6 +95,18 @@
       about_badge2:     "✦ Sanitary, single-use tools",
       about_badge3:     "✦ Cruelty-free products",
       about_badge4:     "✦ By appointment only",
+
+      reviews_eyebrow:      "Client Reviews",
+      reviews_title:        "What Clients Say",
+      reviews_lede:         "Honest words from people who've sat in my chair.",
+      reviews_empty:        "No reviews yet — be the first!",
+      reviews_form_title:   "Leave a Review",
+      reviews_form_name:    "Your name",
+      reviews_form_email:   "Email (not shown publicly)",
+      reviews_form_rating:  "Rating",
+      reviews_form_text:    "Your review",
+      reviews_form_submit:  "Submit review",
+      reviews_thanks:       "Thank you! Your review will appear after approval.",
 
       contact_eyebrow:      "Say Hello",
       contact_title:        "Contact",
@@ -138,6 +186,18 @@
       about_badge3:     "✦ Produktai be žiaurumo gyvūnams",
       about_badge4:     "✦ Tik pagal išankstinę registraciją",
 
+      reviews_eyebrow:      "Atsiliepimai",
+      reviews_title:        "Ką sako klientai",
+      reviews_lede:         "Nuoširdūs žodžiai iš žmonių, kurie buvo mano studijoje.",
+      reviews_empty:        "Atsiliepimų kol kas nėra — būkite pirmas!",
+      reviews_form_title:   "Palikite atsiliepimą",
+      reviews_form_name:    "Jūsų vardas",
+      reviews_form_email:   "El. paštas (nerodomas viešai)",
+      reviews_form_rating:  "Įvertinimas",
+      reviews_form_text:    "Jūsų atsiliepimas",
+      reviews_form_submit:  "Pateikti atsiliepimą",
+      reviews_thanks:       "Ačiū! Jūsų atsiliepimas pasirodys po patvirtinimo.",
+
       contact_eyebrow:      "Susisiekime",
       contact_title:        "Kontaktai",
       contact_lede:         "Greičiausias būdas susisiekti – Instagram žinutė. Dėl rezervacijų prašome naudotis kalendoriumi apačioje.",
@@ -213,8 +273,169 @@
     });
   });
 
-  // Apply on load
-  applyLang(detectLang());
+  /* ---------------- Reviews ---------------- */
+  function renderStars(rating) {
+    var html = '';
+    for (var i = 1; i <= 5; i++) {
+      if (rating >= i)          html += '<span class="star star--full">★</span>';
+      else if (rating >= i - 0.5) html += '<span class="star star--half">★</span>';
+      else                       html += '<span class="star star--empty">★</span>';
+    }
+    return '<span class="stars-display">' + html + '</span>';
+  }
+
+  function loadReviews() {
+    var list = document.getElementById('reviews-list');
+    if (!list) return;
+    fetch('reviews.json')
+      .then(function(r) { return r.ok ? r.json() : []; })
+      .then(function(data) {
+        if (!data || !data.length) {
+          var lang = document.documentElement.getAttribute('lang') || 'en';
+          var t = translations[lang] || translations.en;
+          list.innerHTML = '<p class="reviews__empty">' + (t.reviews_empty || 'No reviews yet.') + '</p>';
+          return;
+        }
+        list.innerHTML = data.map(function(r) {
+          return '<article class="review-card reveal">' +
+            '<div class="review-card__header">' +
+              '<span class="review-card__name">' + r.name + '</span>' +
+              '<span class="review-card__date">' + r.date + '</span>' +
+            '</div>' +
+            renderStars(r.rating) +
+            '<p class="review-card__text">' + r.text + '</p>' +
+          '</article>';
+        }).join('');
+        list.querySelectorAll('.review-card').forEach(function(el) {
+          if (svcObserver) svcObserver.observe(el);
+          else el.classList.add('is-visible');
+        });
+      })
+      .catch(function() { /* silent */ });
+  }
+
+  function initStarInput() {
+    var container  = document.getElementById('star-input');
+    var hidden     = document.getElementById('review-rating');
+    if (!container || !hidden) return;
+    var selected = 5;
+
+    function paint(val) {
+      container.querySelectorAll('.star-btn').forEach(function(s, idx) {
+        s.classList.toggle('full',  val >= idx + 1);
+        s.classList.toggle('half',  val >= idx + 0.5 && val < idx + 1);
+        s.classList.toggle('empty', val < idx + 0.5);
+      });
+    }
+
+    for (var i = 1; i <= 5; i++) {
+      (function(n) {
+        var s = document.createElement('span');
+        s.className = 'star-btn';
+        s.innerHTML = '★';
+        s.addEventListener('mousemove', function(e) {
+          var rect = s.getBoundingClientRect();
+          paint(e.clientX < rect.left + rect.width / 2 ? n - 0.5 : n);
+        });
+        s.addEventListener('click', function(e) {
+          var rect = s.getBoundingClientRect();
+          selected = e.clientX < rect.left + rect.width / 2 ? n - 0.5 : n;
+          hidden.value = selected;
+          paint(selected);
+        });
+        container.appendChild(s);
+      })(i);
+    }
+    container.addEventListener('mouseleave', function() { paint(selected); });
+    paint(selected);
+  }
+
+  function initReviewForm() {
+    var form      = document.getElementById('review-form');
+    var textArea  = document.getElementById('review-text');
+    var counter   = document.getElementById('review-char-count');
+    var errEl     = document.getElementById('review-error');
+    var thanksEl  = document.getElementById('review-thanks');
+    if (!form) return;
+
+    if (textArea && counter) {
+      textArea.addEventListener('input', function() {
+        var len = this.value.length;
+        counter.textContent = len + '/200';
+        counter.style.color = len > 180 ? '#c0392b' : '';
+      });
+    }
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      errEl.style.display = 'none';
+      var btn = form.querySelector('button[type=submit]');
+      btn.disabled = true;
+
+      fetch('submit_review.php', { method: 'POST', body: new FormData(form) })
+        .then(function(r) { return r.json(); })
+        .then(function(res) {
+          if (res.ok) {
+            form.style.display = 'none';
+            thanksEl.style.display = 'block';
+          } else {
+            errEl.textContent = res.error;
+            errEl.style.display = 'block';
+            btn.disabled = false;
+          }
+        })
+        .catch(function() {
+          errEl.textContent = 'Something went wrong. Please try again.';
+          errEl.style.display = 'block';
+          btn.disabled = false;
+        });
+    });
+  }
+
+  // Render service cards from data for a given language
+  var servicesData = [];
+  var svcObserver = null;
+  function renderServices(lang) {
+    var grid = document.getElementById('services-grid');
+    if (!grid || !servicesData.length) return;
+    grid.innerHTML = servicesData.map(function(svc) {
+      var title = svc['title_' + lang] || svc['title_en'] || '';
+      var desc  = svc['desc_'  + lang] || svc['desc_en']  || '';
+      var price = svc['price_' + lang] || svc['price_en'] || '';
+      return '<article class="service-card">' +
+        '<h3>' + title + '</h3>' +
+        '<p class="service-card__desc">' + desc + '</p>' +
+        '<p class="service-card__price">' + price + '</p>' +
+        '</article>';
+    }).join('');
+    // Observe new cards for reveal animation
+    grid.querySelectorAll('.service-card').forEach(function(el) {
+      el.classList.add('reveal');
+      if (svcObserver) { svcObserver.observe(el); }
+      else { el.classList.add('is-visible'); }
+    });
+  }
+
+  // Patch applyLang to also re-render services
+  var _applyLang = applyLang;
+  applyLang = function(lang) {
+    _applyLang(lang);
+    renderServices(lang);
+  };
+
+  // Load services.json first, then apply language
+  fetch('services.json')
+    .then(function(r) { return r.ok ? r.json() : null; })
+    .then(function(data) { if (data && data.length) servicesData = data; })
+    .catch(function(){})
+    .finally(function() { applyLang(detectLang()); });
+
+  // Fallback if fetch not supported
+  if (typeof fetch === 'undefined') applyLang(detectLang());
+
+  loadReviews();
+  initStarInput();
+  initReviewForm();
 
   /* ---------------- Year in footer ---------------- */
   var yearEl = document.getElementById('year');
@@ -254,7 +475,7 @@
   onScroll();
 
   /* ---------------- Reveal on scroll ---------------- */
-  var revealEls = document.querySelectorAll('.section__head, .service-card, .gallery__item, .about__media, .about__body, .contact__card, .book__frame, .location__info, .location__map');
+  var revealEls = document.querySelectorAll('.section__head, .service-card, .gallery__item, .about__media, .about__body, .review-card, .review-form-wrap, .contact__card, .book__frame, .location__info, .location__map');
   revealEls.forEach(function (el) { el.classList.add('reveal'); });
 
   if ('IntersectionObserver' in window) {
@@ -267,6 +488,7 @@
       });
     }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
     revealEls.forEach(function (el) { io.observe(el); });
+    svcObserver = io;
   } else {
     revealEls.forEach(function (el) { el.classList.add('is-visible'); });
   }
@@ -313,45 +535,50 @@
   updateScrollspy();
 
   /* ---------------- Gallery lightbox ---------------- */
-  var gallery = document.querySelectorAll('.gallery__item');
-  var lb      = document.getElementById('lightbox');
-  if (gallery.length && lb) {
-    var lbImg  = lb.querySelector('.lightbox__img');
-    var lbNext = lb.querySelector('.lightbox__next');
-    var lbPrev = lb.querySelector('.lightbox__prev');
-    var lbClose = lb.querySelector('.lightbox__close');
-    var index  = 0;
-    var items  = Array.prototype.map.call(gallery, function (el) {
-      return { full: el.dataset.src || el.querySelector('img').src, alt: el.querySelector('img').alt };
-    });
+  var lb = document.getElementById('lightbox');
+  var lbImg, lbNext, lbPrev, lbClose, lbIndex = 0, lbItems = [];
 
-    function open(i) {
-      index = (i + items.length) % items.length;
-      lbImg.src = items[index].full;
-      lbImg.alt = items[index].alt;
-      lb.classList.add('is-open');
-      lb.setAttribute('aria-hidden', 'false');
-      document.body.style.overflow = 'hidden';
-    }
-    function close() {
-      lb.classList.remove('is-open');
-      lb.setAttribute('aria-hidden', 'true');
-      document.body.style.overflow = '';
-    }
+  function lbOpen(i) {
+    if (!lbItems.length) return;
+    lbIndex = (i + lbItems.length) % lbItems.length;
+    lbImg.src = lbItems[lbIndex].full;
+    lbImg.alt = lbItems[lbIndex].alt;
+    lb.classList.add('is-open');
+    lb.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
 
-    gallery.forEach(function (el, i) {
-      el.addEventListener('click', function () { open(i); });
-    });
-    lbNext.addEventListener('click', function () { open(index + 1); });
-    lbPrev.addEventListener('click', function () { open(index - 1); });
-    lbClose.addEventListener('click', close);
-    lb.addEventListener('click', function (e) { if (e.target === lb) close(); });
+  function lbClose2() {
+    lb.classList.remove('is-open');
+    lb.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
 
+  if (lb) {
+    lbImg   = lb.querySelector('.lightbox__img');
+    lbNext  = lb.querySelector('.lightbox__next');
+    lbPrev  = lb.querySelector('.lightbox__prev');
+    lbClose = lb.querySelector('.lightbox__close');
+
+    lbNext.addEventListener('click', function () { lbOpen(lbIndex + 1); });
+    lbPrev.addEventListener('click', function () { lbOpen(lbIndex - 1); });
+    lbClose.addEventListener('click', lbClose2);
+    lb.addEventListener('click', function (e) { if (e.target === lb) lbClose2(); });
     document.addEventListener('keydown', function (e) {
       if (!lb.classList.contains('is-open')) return;
-      if (e.key === 'Escape')      close();
-      if (e.key === 'ArrowRight')  open(index + 1);
-      if (e.key === 'ArrowLeft')   open(index - 1);
+      if (e.key === 'Escape')     lbClose2();
+      if (e.key === 'ArrowRight') lbOpen(lbIndex + 1);
+      if (e.key === 'ArrowLeft')  lbOpen(lbIndex - 1);
+    });
+  }
+
+  function initLightbox() {
+    var items = document.querySelectorAll('.gallery__item');
+    lbItems = Array.prototype.map.call(items, function (el) {
+      return { full: el.dataset.src || el.querySelector('img').src, alt: el.querySelector('img').alt };
+    });
+    items.forEach(function (el, i) {
+      el.addEventListener('click', function () { lbOpen(i); });
     });
   }
 })();
