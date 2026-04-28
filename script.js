@@ -376,6 +376,9 @@
         .then(function(r) { return r.json(); })
         .then(function(res) {
           if (res.ok) {
+            form.reset();
+            if (counter) counter.textContent = '0/200';
+            initStarInput();
             form.style.display = 'none';
             thanksEl.style.display = 'block';
           } else {
