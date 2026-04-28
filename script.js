@@ -106,7 +106,14 @@
       reviews_form_rating:  "Rating",
       reviews_form_text:    "Your review",
       reviews_form_submit:  "Submit review",
-      reviews_thanks:       "Thank you! Your review will appear after approval.",
+      reviews_thanks:       "Thank you for your review!",
+      reviews_err_required: "Please fill in all fields.",
+      reviews_err_email:    "Invalid email address.",
+      reviews_err_length:   "Review must be 500 characters or less.",
+      reviews_err_rating:   "Please select a rating.",
+      reviews_err_generic:  "Something went wrong. Please try again.",
+      reviews_show_more:    "Show more",
+      reviews_show_less:    "Show less",
 
       contact_eyebrow:      "Say Hello",
       contact_title:        "Contact",
@@ -118,14 +125,16 @@
       book_eyebrow:      "Booking",
       book_title:        "Reserve Your Time",
       book_lede:         "Pick a service and a time that works for you. Confirmation arrives by email.",
+      book_popup:        "Book Appointment",
+      book_alts_label:   "or book another way",
       book_ph_title:     "Booking widget goes here",
       book_ph_desc_html: 'Paste your Booksy (or Calendly / Square) embed code into <code>index.html</code> where you see <code>id="booksy-embed"</code>.',
       book_ph_link:      "Open Booksy in a new tab →",
 
       location_eyebrow:        "Find Me",
-      location_title:          "The Studio",
+      location_title:          "Sand Studio",
       location_addr_heading:   "Address",
-      location_addr_html:      "<strong>Sand Studio</strong><br />[Street address]<br />Vilnius, Lithuania",
+      location_addr_html:      "Žalgirio g. 131<br />Vilnius, 08217 Vilniaus m. sav.<br />Lithuania",
       location_hours_heading:  "Hours",
       location_hours_html:     "Tue – Fri &nbsp;· &nbsp;10am – 7pm<br />Saturday &nbsp;·&nbsp; 9am – 5pm<br />Sun – Mon &nbsp;·&nbsp; Closed",
       location_directions:     "Get directions →",
@@ -196,7 +205,14 @@
       reviews_form_rating:  "Įvertinimas",
       reviews_form_text:    "Jūsų atsiliepimas",
       reviews_form_submit:  "Pateikti atsiliepimą",
-      reviews_thanks:       "Ačiū! Jūsų atsiliepimas pasirodys po patvirtinimo.",
+      reviews_thanks:       "Ačiū už jūsų atsiliepimą!",
+      reviews_err_required: "Prašome užpildyti visus laukus.",
+      reviews_err_email:    "Neteisingas el. pašto adresas.",
+      reviews_err_length:   "Atsiliepimas negali viršyti 500 simbolių.",
+      reviews_err_rating:   "Prašome pasirinkti įvertinimą.",
+      reviews_err_generic:  "Klaida. Prašome bandyti dar kartą.",
+      reviews_show_more:    "Rodyti daugiau",
+      reviews_show_less:    "Rodyti mažiau",
 
       contact_eyebrow:      "Susisiekime",
       contact_title:        "Kontaktai",
@@ -208,14 +224,16 @@
       book_eyebrow:      "Rezervacija",
       book_title:        "Rezervuokite laiką",
       book_lede:         "Pasirinkite paslaugą ir jums tinkamą laiką. Patvirtinimas bus išsiųstas el. paštu.",
+      book_popup:        "Rezervuoti laiką",
+      book_alts_label:   "arba rezervuokite kitaip",
       book_ph_title:     "Rezervacijos įrankis bus čia",
       book_ph_desc_html: 'Įklijuokite Booksy (arba Calendly / Square) kodą faile <code>index.html</code>, ten kur nurodyta <code>id="booksy-embed"</code>.',
       book_ph_link:      "Atidaryti Booksy naujame lange →",
 
       location_eyebrow:        "Rasite mane",
-      location_title:          "Studija",
+      location_title:          "Sand Studio",
       location_addr_heading:   "Adresas",
-      location_addr_html:      "<strong>Sand Studio</strong><br />[Gatvės adresas]<br />Vilnius, Lietuva",
+      location_addr_html:      "Žalgirio g. 131<br />Vilnius, 08217 Vilniaus m. sav.<br />Lietuva",
       location_hours_heading:  "Darbo laikas",
       location_hours_html:     "Antr. – Penkt. &nbsp;· &nbsp;10:00 – 19:00<br />Šeštad. &nbsp;·&nbsp; 9:00 – 17:00<br />Sekm. – Pirmad. &nbsp;·&nbsp; Nedirbama",
       location_directions:     "Rasti kelią →",
@@ -296,22 +314,58 @@
           list.innerHTML = '<p class="reviews__empty">' + (t.reviews_empty || 'No reviews yet.') + '</p>';
           return;
         }
+        var lang = document.documentElement.getAttribute('lang') || 'en';
+        var t = translations[lang] || translations.en;
+
+        var lang = document.documentElement.getAttribute('lang') || 'en';
+        var t = translations[lang] || translations.en;
         list.innerHTML = data.map(function(r) {
-          return '<article class="review-card reveal">' +
+          var needsToggle = r.text.length > 150;
+          return '<article class="review-card">' +
             '<div class="review-card__header">' +
               '<span class="review-card__name">' + r.name + '</span>' +
               '<span class="review-card__date">' + r.date + '</span>' +
             '</div>' +
             renderStars(r.rating) +
             '<p class="review-card__text">' + r.text + '</p>' +
+            (needsToggle ? '<button type="button" class="review-card__toggle" data-full="' + r.text.replace(/"/g, '&quot;') + '">' + (t['reviews_show_more'] || 'Show more') + '</button>' : '') +
           '</article>';
         }).join('');
-        list.querySelectorAll('.review-card').forEach(function(el) {
-          if (svcObserver) svcObserver.observe(el);
-          else el.classList.add('is-visible');
+        list.querySelectorAll('.review-card__toggle').forEach(function(btn) {
+          btn.addEventListener('click', function() {
+            var card = btn.closest('.review-card');
+            openReviewModal({
+              name:   card.querySelector('.review-card__name').textContent,
+              date:   card.querySelector('.review-card__date').textContent,
+              stars:  card.querySelector('.stars-display').outerHTML,
+              text:   btn.dataset.full
+            });
+          });
         });
       })
       .catch(function() { /* silent */ });
+  }
+
+  /* ---- Review modal ---- */
+  var reviewModal = document.getElementById('review-modal');
+  function openReviewModal(data) {
+    document.getElementById('rmodal-name').textContent  = data.name;
+    document.getElementById('rmodal-date').textContent  = data.date;
+    document.getElementById('rmodal-stars').innerHTML   = data.stars;
+    document.getElementById('rmodal-text').textContent  = data.text;
+    reviewModal.setAttribute('aria-hidden', 'false');
+    reviewModal.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeReviewModal() {
+    reviewModal.setAttribute('aria-hidden', 'true');
+    reviewModal.classList.remove('is-open');
+    document.body.style.overflow = '';
+  }
+  if (reviewModal) {
+    reviewModal.querySelector('.review-modal__close').addEventListener('click', closeReviewModal);
+    reviewModal.addEventListener('click', function(e) { if (e.target === reviewModal) closeReviewModal(); });
+    document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeReviewModal(); });
   }
 
   function initStarInput() {
@@ -361,8 +415,8 @@
     if (textArea && counter) {
       textArea.addEventListener('input', function() {
         var len = this.value.length;
-        counter.textContent = len + '/200';
-        counter.style.color = len > 180 ? '#c0392b' : '';
+        counter.textContent = len + '/500';
+        counter.style.color = len >= 500 ? '#c0392b' : '';
       });
     }
 
@@ -377,18 +431,29 @@
         .then(function(res) {
           if (res.ok) {
             form.reset();
-            if (counter) counter.textContent = '0/200';
+            if (counter) counter.textContent = '0/500';
             initStarInput();
             form.style.display = 'none';
             thanksEl.style.display = 'block';
           } else {
-            errEl.textContent = res.error;
+            var lang = document.documentElement.getAttribute('lang') || 'en';
+            var t = translations[lang] || translations.en;
+            var errorMap = {
+              'All fields are required.':               'reviews_err_required',
+              'Invalid email address.':                 'reviews_err_email',
+              'Review must be 500 characters or less.': 'reviews_err_length',
+              'Rating must be between 1 and 5.':        'reviews_err_rating'
+            };
+            var key = errorMap[res.error] || 'reviews_err_generic';
+            errEl.textContent = t[key] || res.error;
             errEl.style.display = 'block';
             btn.disabled = false;
           }
         })
         .catch(function() {
-          errEl.textContent = 'Something went wrong. Please try again.';
+          var lang = document.documentElement.getAttribute('lang') || 'en';
+          var t = translations[lang] || translations.en;
+          errEl.textContent = t['reviews_err_generic'];
           errEl.style.display = 'block';
           btn.disabled = false;
         });
@@ -536,6 +601,14 @@
   window.addEventListener('scroll', updateScrollspy, { passive: true });
   window.addEventListener('resize', updateScrollspy);
   updateScrollspy();
+
+  /* ---------------- Calendly popup functionality ---------------- */
+  var calendlyPopupBtn = document.getElementById('calendly-popup-btn');
+  if (calendlyPopupBtn) {
+    calendlyPopupBtn.addEventListener('click', function() {
+      window.open('https://calendly.com/qwe41211q/30min', '_blank', 'noopener,noreferrer');
+    });
+  }
 
   /* ---------------- Gallery lightbox ---------------- */
   var lb = document.getElementById('lightbox');

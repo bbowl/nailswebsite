@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Sand Studio by Evelina — bespoke nail care, manicures, pedicures and nail art in Vilnius. Book your appointment today." />
   <meta name="theme-color" content="#C8B6A6" />
-  <title>Sand Studio — Nail Care in Vilnius</title>
+  <title>Sand Studio - Nail Care</title>
 
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
@@ -159,6 +159,14 @@
         <div class="calendly-inline-widget" data-url="https://calendly.com/qwe41211q/30min" style="min-width:320px;height:900px;"></div>
         <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
       </div>
+      
+      <!-- Alternative booking options -->
+      <div class="book__alts">
+        <span class="book__alts-label" data-i18n="book_alts_label">or book another way</span>
+        <div class="book__alts-btns">
+          <button id="calendly-popup-btn" class="btn btn--ghost" data-i18n="book_popup">Book Appointment</button>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -203,18 +211,15 @@
   <!-- ============ LOCATION ============ -->
   <section class="section location" id="location">
     <div class="container">
-      <div class="section__head">
-        <p class="eyebrow" data-i18n="location_eyebrow">Find Me</p>
-        <h2 class="section__title" data-i18n="location_title">The Studio</h2>
-      </div>
-
       <div class="location__grid">
         <div class="location__info">
+          <p class="eyebrow" data-i18n="location_eyebrow">Find Me</p>
+          <h2 class="section__title location__title" data-i18n="location_title">Sand Studio</h2>
           <h3 data-i18n="location_addr_heading">Address</h3>
           <p data-i18n-html="location_addr_html">
-            <strong>Sand Studio</strong><br />
-            [Street address]<br />
-            Vilnius, Lithuania
+            Žalgirio g. 131<br />
+            Vilnius, 08217 Vilniaus m. sav.<br />
+            Lithuania
           </p>
 
           <h3 data-i18n="location_hours_heading">Hours</h3>
@@ -224,7 +229,7 @@
             Sun – Mon &nbsp;·&nbsp; Closed
           </p>
 
-          <a class="btn btn--ghost" href="https://maps.google.com/?q=Vilnius+city+center" target="_blank" rel="noopener" data-i18n="location_directions">Get directions →</a>
+          <a class="btn btn--ghost" href="https://www.google.com/maps?daddr=%C5%BDalgirio+g.+131%2C+Vilnius%2C+08217" target="_blank" rel="noopener" data-i18n="location_directions">Get directions →</a>
         </div>
 
         <div class="location__map">
@@ -237,7 +242,7 @@
           -->
           <iframe
             title="Studio location on Google Maps"
-            src="https://www.google.com/maps?q=Vilnius+Lithuania&output=embed"
+            src="https://www.google.com/maps?q=%C5%BDalgirio+g.+131%2C+Vilnius%2C+08217&output=embed&iwloc=near&z=16"
             width="100%"
             height="100%"
             style="border:0"
@@ -273,14 +278,14 @@
           </div>
           <div class="review-form__field">
             <label for="review-text" data-i18n="reviews_form_text">Your review</label>
-            <textarea id="review-text" name="text" rows="3" required maxlength="200"></textarea>
-            <span class="review-char-count" id="review-char-count">0/200</span>
+            <textarea id="review-text" name="text" rows="3" required maxlength="500"></textarea>
+            <span class="review-char-count" id="review-char-count">0/500</span>
           </div>
           <p class="review-form__error" id="review-error"></p>
           <button type="submit" class="btn btn--primary" data-i18n="reviews_form_submit">Submit review</button>
         </form>
         <div class="review-thanks" id="review-thanks" data-i18n="reviews_thanks">
-          Thank you! Your review will appear after approval.
+          Thank you for your review!
         </div>
       </div>
     </div>
@@ -309,6 +314,19 @@
     <button class="lightbox__prev" aria-label="Previous image">‹</button>
     <img class="lightbox__img" src="" alt="" />
     <button class="lightbox__next" aria-label="Next image">›</button>
+  </div>
+
+  <!-- Review modal -->
+  <div class="review-modal" id="review-modal" aria-hidden="true" role="dialog" aria-label="Full review">
+    <div class="review-modal__box">
+      <button class="review-modal__close" aria-label="Close">×</button>
+      <div class="review-modal__header">
+        <span class="review-card__name" id="rmodal-name"></span>
+        <span class="review-card__date" id="rmodal-date"></span>
+      </div>
+      <div id="rmodal-stars"></div>
+      <p class="review-modal__text" id="rmodal-text"></p>
+    </div>
   </div>
 
   <script src="script.js" defer></script>

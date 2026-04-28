@@ -14,8 +14,9 @@
   --ink:          #2C2622;
   --muted:        #8B7B6C;
 
-  --serif: "Cormorant Garamond", "Playfair Display", Georgia, serif;
+  --serif: "Cormorant Garamond", Georgia, serif;
   --sans:  "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  --mono:  ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
 
   --radius-s: 8px;
   --radius-m: 16px;
@@ -47,7 +48,7 @@ body {
 img { max-width: 100%; display: block; }
 a { color: inherit; text-decoration: none; -webkit-tap-highlight-color: transparent; }
 button { font: inherit; cursor: pointer; border: 0; background: none; color: inherit; -webkit-tap-highlight-color: transparent; }
-code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .9em; background: var(--beige); padding: 2px 6px; border-radius: 4px; }
+code { font-family: var(--mono); font-size: .9em; background: var(--beige); padding: 2px 6px; border-radius: 4px; }
 
 .container { max-width: var(--max); margin: 0 auto; padding: 0 24px; }
 
@@ -61,11 +62,11 @@ p  { margin: 0 0 1em; color: var(--ink); }
 
 .eyebrow {
   font-family: var(--sans);
-  font-size: .78rem;
+  font-size: 0.75rem;
   letter-spacing: .22em;
   text-transform: uppercase;
   color: var(--rose);
-  font-weight: 500;
+  font-weight: 600;
   margin: 0 0 1.2em;
 }
 
@@ -278,9 +279,9 @@ p  { margin: 0 0 1em; color: var(--ink); }
   width: 3px; height: 8px;
   background: var(--brown);
   border-radius: 2px;
-  animation: scroll 1.8s var(--ease) infinite;
+  animation: hero-scroll-dot 1.8s var(--ease) infinite;
 }
-@keyframes scroll {
+@keyframes hero-scroll-dot {
   0%   { transform: translateY(0);    opacity: 1; }
   70%  { transform: translateY(12px); opacity: 0; }
   100% { transform: translateY(0);    opacity: 0; }
@@ -459,7 +460,7 @@ p  { margin: 0 0 1em; color: var(--ink); }
 
 .reviews__list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 24px;
   margin-bottom: 64px;
 }
@@ -502,6 +503,73 @@ p  { margin: 0 0 1em; color: var(--ink); }
   margin: 0;
   overflow-wrap: break-word;
   word-break: break-word;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  flex: 1;
+}
+/* Review modal */
+.review-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(60, 40, 20, .45);
+  z-index: 900;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+.review-modal.is-open { display: flex; }
+.review-modal__box {
+  background: var(--cream);
+  border-radius: var(--radius-m);
+  padding: 36px 40px;
+  max-width: 560px;
+  width: 100%;
+  position: relative;
+  max-height: 80vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.review-modal__close {
+  position: absolute;
+  top: 14px;
+  right: 18px;
+  background: none;
+  border: none;
+  font-size: 1.6rem;
+  line-height: 1;
+  color: var(--muted);
+  cursor: pointer;
+}
+.review-modal__close:hover { color: var(--brown-deep); }
+.review-modal__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+.review-modal__text {
+  color: var(--brown);
+  font-size: 1rem;
+  line-height: 1.65;
+  margin: 0;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+.review-card__toggle {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: .88rem;
+  color: var(--brown);
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  align-self: flex-start;
 }
 
 /* Star display */
@@ -622,9 +690,40 @@ p  { margin: 0 0 1em; color: var(--ink); }
   box-shadow: var(--shadow-md);
   min-height: 360px;
 }
+.book__alts {
+  max-width: 920px;
+  margin: 40px auto 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+.book__alts-label {
+  font-size: .78rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.book__alts-label::before,
+.book__alts-label::after {
+  content: "";
+  width: 40px;
+  height: 1px;
+  background: var(--taupe);
+}
+.book__alts-btns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+}
 
 /* ---------- Location ---------- */
 .location { background: var(--cream); }
+.location__title { text-align: left; margin-bottom: 1.6em; }
 .location__grid {
   display: grid;
   grid-template-columns: 1fr 1.3fr;
