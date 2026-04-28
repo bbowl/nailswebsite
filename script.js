@@ -9,7 +9,7 @@
   (function loadGallery() {
     var grid = document.getElementById('gallery-grid');
     if (!grid) return;
-    var loaded = [], i = 1, pending = 0, done = false;
+    var loaded = [], pending = 100;
 
     function addItem(n) {
       var btn = document.createElement('button');
@@ -23,25 +23,22 @@
       grid.appendChild(btn);
     }
 
-    function probe(n) {
-      pending++;
-      var img = new Image();
-      img.onload  = function() { loaded.push(n); finish(); };
-      img.onerror = function() { done = true; finish(); };
-      img.src = 'images/' + n + '.jpg';
-    }
-
     function finish() {
-      pending--;
-      if (done && pending === 0) {
-        loaded.sort(function(a,b){ return a-b; });
+      if (--pending === 0) {
+        loaded.sort(function(a, b) { return a - b; });
         loaded.forEach(addItem);
-        // re-init lightbox after gallery is built
         if (typeof initLightbox === 'function') initLightbox();
       }
     }
 
-    for (; i <= 100; i++) probe(i);
+    for (var i = 1; i <= 100; i++) {
+      (function(n) {
+        var img = new Image();
+        img.onload  = function() { loaded.push(n); finish(); };
+        img.onerror = finish;
+        img.src = 'images/' + n + '.jpg';
+      })(i);
+    }
   })();
 
   /* ---------------- i18n dictionary ---------------- */
