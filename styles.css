@@ -614,7 +614,9 @@ p  { margin: 0 0 1em; color: var(--ink); }
 
   .nav__toggle { display: block; }
 
-  .hero { min-height: 88vh; padding-top: 140px; }
+  .nav__inner { height: 54px; }
+  .nav__mark { width: 30px; height: 30px; font-size: .95rem; }
+  .hero { min-height: 88vh; padding-top: 110px; }
   .hero__scroll { display: none; }
 
   .section { padding: 80px 0; }
