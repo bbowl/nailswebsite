@@ -455,6 +455,7 @@ p  { margin: 0 0 1em; color: var(--ink); }
 
 /* ---------- Reviews ---------- */
 .reviews { background: var(--beige); }
+.reviews-form-section { background: var(--beige); }
 
 .reviews__list {
   display: grid;
