@@ -146,6 +146,22 @@
     </div>
   </section>
 
+  <!-- ============ BOOKING ============ -->
+  <section class="section book" id="book">
+    <div class="container">
+      <div class="section__head">
+        <p class="eyebrow" data-i18n="book_eyebrow">Booking</p>
+        <h2 class="section__title" data-i18n="book_title">Reserve Your Time</h2>
+        <p class="section__lede" data-i18n="book_lede">Pick a service and a time that works for you. Confirmation arrives by email.</p>
+      </div>
+
+      <div class="book__frame">
+        <div class="calendly-inline-widget" data-url="https://calendly.com/qwe41211q/30min" style="min-width:320px;height:900px;"></div>
+        <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
+      </div>
+    </div>
+  </section>
+
   <!-- ============ CONTACT ============ -->
   <section class="section contact" id="contact">
     <div class="container">
@@ -180,58 +196,6 @@
           <div class="contact__label" data-i18n="contact_phone_label">Phone</div>
           <div class="contact__value">+1 (000) 000‑0000</div>
         </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ BOOKING ============ -->
-  <section class="section book" id="book">
-    <div class="container">
-      <div class="section__head">
-        <p class="eyebrow" data-i18n="book_eyebrow">Booking</p>
-        <h2 class="section__title" data-i18n="book_title">Reserve Your Time</h2>
-        <p class="section__lede" data-i18n="book_lede">Pick a service and a time that works for you. Confirmation arrives by email.</p>
-      </div>
-
-      <div class="book__frame">
-        <div class="calendly-inline-widget" data-url="https://calendly.com/qwe41211q/30min" style="min-width:320px;height:900px;"></div>
-        <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ LEAVE A REVIEW ============ -->
-  <section class="section reviews-form-section" id="leave-review">
-    <div class="container">
-      <div class="review-form-wrap">
-        <h3 data-i18n="reviews_form_title">Leave a Review</h3>
-        <form id="review-form" novalidate>
-          <div class="review-form__row">
-            <div class="review-form__field">
-              <label for="review-name" data-i18n="reviews_form_name">Your name</label>
-              <input type="text" id="review-name" name="name" required maxlength="80" autocomplete="name" />
-            </div>
-            <div class="review-form__field">
-              <label for="review-email" data-i18n="reviews_form_email">Email (not shown publicly)</label>
-              <input type="email" id="review-email" name="email" required maxlength="120" autocomplete="email" />
-            </div>
-          </div>
-          <div class="review-form__field">
-            <label data-i18n="reviews_form_rating">Rating</label>
-            <div class="star-input" id="star-input"></div>
-            <input type="hidden" id="review-rating" name="rating" value="5" />
-          </div>
-          <div class="review-form__field">
-            <label for="review-text" data-i18n="reviews_form_text">Your review</label>
-            <textarea id="review-text" name="text" rows="3" required maxlength="200"></textarea>
-            <span class="review-char-count" id="review-char-count">0/200</span>
-          </div>
-          <p class="review-form__error" id="review-error"></p>
-          <button type="submit" class="btn btn--primary" data-i18n="reviews_form_submit">Submit review</button>
-        </form>
-        <div class="review-thanks" id="review-thanks" data-i18n="reviews_thanks">
-          Thank you! Your review will appear after approval.
-        </div>
       </div>
     </div>
   </section>
@@ -281,6 +245,42 @@
             loading="lazy"
             referrerpolicy="no-referrer-when-downgrade">
           </iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ LEAVE A REVIEW ============ -->
+  <section class="section reviews-form-section" id="leave-review">
+    <div class="container">
+      <div class="review-form-wrap">
+        <h3 data-i18n="reviews_form_title">Leave a Review</h3>
+        <form id="review-form" novalidate>
+          <div class="review-form__row">
+            <div class="review-form__field">
+              <label for="review-name" data-i18n="reviews_form_name">Your name</label>
+              <input type="text" id="review-name" name="name" required maxlength="80" autocomplete="name" />
+            </div>
+            <div class="review-form__field">
+              <label for="review-email" data-i18n="reviews_form_email">Email (not shown publicly)</label>
+              <input type="email" id="review-email" name="email" required maxlength="120" autocomplete="email" />
+            </div>
+          </div>
+          <div class="review-form__field">
+            <label data-i18n="reviews_form_rating">Rating</label>
+            <div class="star-input" id="star-input"></div>
+            <input type="hidden" id="review-rating" name="rating" value="5" />
+          </div>
+          <div class="review-form__field">
+            <label for="review-text" data-i18n="reviews_form_text">Your review</label>
+            <textarea id="review-text" name="text" rows="3" required maxlength="200"></textarea>
+            <span class="review-char-count" id="review-char-count">0/200</span>
+          </div>
+          <p class="review-form__error" id="review-error"></p>
+          <button type="submit" class="btn btn--primary" data-i18n="reviews_form_submit">Submit review</button>
+        </form>
+        <div class="review-thanks" id="review-thanks" data-i18n="reviews_thanks">
+          Thank you! Your review will appear after approval.
         </div>
       </div>
     </div>
