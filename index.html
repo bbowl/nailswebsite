@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Sand Studio by Evelina — bespoke nail care, manicures, pedicures and nail art in Vilnius. Book your appointment today." />
+  <meta name="theme-color" content="#C8B6A6" />
+  <title>Sand Studio — Nail Care in Vilnius</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png" />
+  <link rel="shortcut icon" href="favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Sand Studio — sandstudio.lt" />
+  <meta property="og:description" content="Bespoke manicures, pedicures and nail art in Vilnius." />
+  <meta property="og:type" content="website" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- ============ NAV ============ -->
+  <header class="nav" id="nav">
+    <div class="container nav__inner">
+      <a href="#top" class="nav__brand">
+        <span class="nav__mark">S</span>
+        <span class="nav__name">sandstudio.lt</span>
+      </a>
+
+      <button class="nav__toggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav-menu">
+        <span></span><span></span><span></span>
+      </button>
+
+      <nav class="nav__menu" id="nav-menu">
+        <a href="#services" data-i18n="nav_services">Services</a>
+        <a href="#gallery" data-i18n="nav_gallery">Gallery</a>
+        <a href="#about" data-i18n="nav_about">About</a>
+        <a href="#contact" data-i18n="nav_contact">Contact</a>
+        <a href="#location" data-i18n="nav_location">Location</a>
+
+        <div class="lang-switch" role="group" aria-label="Language">
+          <button type="button" data-lang="en" class="is-active" aria-pressed="true">EN</button>
+          <button type="button" data-lang="lt" aria-pressed="false">LT</button>
+        </div>
+
+        <a href="#book" class="nav__cta" data-i18n="nav_book">Book&nbsp;Now</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ============ HERO ============ -->
+  <section class="hero" id="top">
+    <div class="hero__bg" aria-hidden="true"></div>
+    <div class="container hero__inner">
+      <p class="hero__brand fade-in">Sand&nbsp;Studio</p>
+      <p class="eyebrow fade-in" data-i18n="hero_eyebrow">Bespoke Nail Care</p>
+      <h1 class="hero__title fade-in" data-i18n-html="hero_title_html">Polished. Pampered.<br/><em>Perfectly you.</em></h1>
+      <p class="hero__lede fade-in" data-i18n="hero_lede">A warm, intimate studio where every manicure is made to your hands — not the other way around.</p>
+      <div class="hero__cta fade-in">
+        <a href="#book" class="btn btn--primary" data-i18n="hero_cta_primary">Book an appointment</a>
+        <a href="#gallery" class="btn btn--ghost" data-i18n="hero_cta_ghost">See the work</a>
+      </div>
+    </div>
+    <a href="#services" class="hero__scroll" aria-label="Scroll to services">
+      <span></span>
+    </a>
+  </section>
+
+  <!-- ============ SERVICES ============ -->
+  <section class="section services" id="services">
+    <div class="container">
+      <div class="section__head">
+        <p class="eyebrow" data-i18n="services_eyebrow">The Menu</p>
+        <h2 class="section__title" data-i18n="services_title">Services &amp; Pricing</h2>
+        <p class="section__lede" data-i18n="services_lede">A curated list of what I offer. Prices are a starting point — final pricing depends on length, design, and extras.</p>
+      </div>
+
+      <div class="services__grid">
+        <article class="service-card">
+          <h3 data-i18n="svc1_title">Classic Manicure</h3>
+          <p class="service-card__desc" data-i18n="svc1_desc">Shape, cuticle care, a luxurious hand massage, and a flawless polish finish.</p>
+          <p class="service-card__price" data-i18n="svc1_price">from €35</p>
+        </article>
+        <article class="service-card">
+          <h3 data-i18n="svc2_title">Gel Manicure</h3>
+          <p class="service-card__desc" data-i18n="svc2_desc">Long-lasting gel colour, chip-free for up to three weeks with a glossy finish.</p>
+          <p class="service-card__price" data-i18n="svc2_price">from €50</p>
+        </article>
+        <article class="service-card">
+          <h3 data-i18n="svc3_title">Builder Gel / Extensions</h3>
+          <p class="service-card__desc" data-i18n="svc3_desc">Strengthening overlay or tip extensions for length, shape and resilience.</p>
+          <p class="service-card__price" data-i18n="svc3_price">from €75</p>
+        </article>
+        <article class="service-card">
+          <h3 data-i18n="svc4_title">Spa Pedicure</h3>
+          <p class="service-card__desc" data-i18n="svc4_desc">Soak, exfoliation, callus care, massage, and polish — a full reset for tired feet.</p>
+          <p class="service-card__price" data-i18n="svc4_price">from €55</p>
+        </article>
+        <article class="service-card">
+          <h3 data-i18n="svc5_title">Nail Art</h3>
+          <p class="service-card__desc" data-i18n="svc5_desc">Hand-painted detail, French tips, chrome, or minimalist accents. Bring the inspiration.</p>
+          <p class="service-card__price" data-i18n="svc5_price">from €10 / nail</p>
+        </article>
+        <article class="service-card">
+          <h3 data-i18n="svc6_title">Soak-off &amp; Repair</h3>
+          <p class="service-card__desc" data-i18n="svc6_desc">Gentle removal of existing gel or acrylic with a nourishing treatment for healthy nails.</p>
+          <p class="service-card__price" data-i18n="svc6_price">from €20</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ GALLERY ============ -->
+  <section class="section gallery" id="gallery">
+    <div class="container">
+      <div class="section__head">
+        <p class="eyebrow" data-i18n="gallery_eyebrow">Gallery</p>
+        <h2 class="section__title" data-i18n="gallery_title">Recent Work</h2>
+        <p class="section__lede" data-i18n-html="gallery_lede_html">A glimpse of my latest work.</p>
+      </div>
+
+      <div class="gallery__grid">
+        <button class="gallery__item" data-src="images/1.jpg"><img src="images/1.jpg" alt="Sand Studio nail work — 1" loading="lazy" /></button>
+        <button class="gallery__item" data-src="images/2.jpg"><img src="images/2.jpg" alt="Sand Studio nail work — 2" loading="lazy" /></button>
+        <button class="gallery__item" data-src="images/3.jpg"><img src="images/3.jpg" alt="Sand Studio nail work — 3" loading="lazy" /></button>
+        <button class="gallery__item" data-src="images/4.jpg"><img src="images/4.jpg" alt="Sand Studio nail work — 4" loading="lazy" /></button>
+        <button class="gallery__item" data-src="images/5.jpg"><img src="images/5.jpg" alt="Sand Studio nail work — 5" loading="lazy" /></button>
+        <button class="gallery__item" data-src="images/6.jpg"><img src="images/6.jpg" alt="Sand Studio nail work — 6" loading="lazy" /></button>
+        <button class="gallery__item" data-src="images/7.jpg"><img src="images/7.jpg" alt="Sand Studio nail work — 7" loading="lazy" /></button>
+        <button class="gallery__item" data-src="images/8.jpg"><img src="images/8.jpg" alt="Sand Studio nail work — 8" loading="lazy" /></button>
+        <button class="gallery__item" data-src="images/9.jpg"><img src="images/9.jpg" alt="Sand Studio nail work — 9" loading="lazy" /></button>
+        <button class="gallery__item" data-src="images/10.jpg"><img src="images/10.jpg" alt="Sand Studio nail work — 10" loading="lazy" /></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ABOUT ============ -->
+  <section class="section about" id="about">
+    <div class="container about__grid">
+      <div class="about__media">
+        <img
+          class="about__avatar"
+          src="images/avatar.jpg"
+          alt="Portrait of Evelina — Sand Studio"
+          loading="lazy"
+        />
+      </div>
+      <div class="about__body">
+        <p class="eyebrow" data-i18n="about_eyebrow">About Me</p>
+        <h2 class="section__title" data-i18n-html="about_title_html">Hi, I'm <em>Evelina</em></h2>
+        <p data-i18n-html="about_p1_html">
+          I'm a certified nail technician with over <strong>[X]</strong> years of experience in
+          manicures, pedicures, gel, and nail art. My studio is a small, quiet space where you
+          can exhale — no rushing, no assembly line, just beautiful, healthy nails done right.
+        </p>
+        <p data-i18n="about_p2">
+          I believe nail care is self-care. Whether you want a classic, elegant look or something
+          bold and bespoke, I'll work with you to find what suits your hands and your life.
+        </p>
+        <ul class="about__badges">
+          <li data-i18n="about_badge1">✦ Licensed &amp; insured</li>
+          <li data-i18n="about_badge2">✦ Sanitary, single-use tools</li>
+          <li data-i18n="about_badge3">✦ Cruelty-free products</li>
+          <li data-i18n="about_badge4">✦ By appointment only</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CONTACT ============ -->
+  <section class="section contact" id="contact">
+    <div class="container">
+      <div class="section__head">
+        <p class="eyebrow" data-i18n="contact_eyebrow">Say Hello</p>
+        <h2 class="section__title" data-i18n="contact_title">Contact</h2>
+        <p class="section__lede" data-i18n="contact_lede">The fastest way to reach me is Instagram DM. For bookings, please use the calendar below.</p>
+      </div>
+
+      <div class="contact__grid">
+        <a class="contact__card" href="https://www.instagram.com/balciuke.nails/" target="_blank" rel="noopener">
+          <div class="contact__icon" aria-hidden="true">
+            <!-- Instagram icon -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+          </div>
+          <div class="contact__label" data-i18n="contact_insta_label">Instagram</div>
+          <div class="contact__value">@balciuke.nails</div>
+        </a>
+
+        <a class="contact__card" href="mailto:hello@sandstudio.lt">
+          <div class="contact__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+          </div>
+          <div class="contact__label" data-i18n="contact_email_label">Email</div>
+          <div class="contact__value">hello@sandstudio.lt</div>
+        </a>
+
+        <a class="contact__card" href="tel:+10000000000">
+          <div class="contact__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.86 19.86 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.86 19.86 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.37 1.9.72 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.35 1.85.59 2.81.72a2 2 0 0 1 1.72 2.01Z"/></svg>
+          </div>
+          <div class="contact__label" data-i18n="contact_phone_label">Phone</div>
+          <div class="contact__value">+1 (000) 000‑0000</div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ BOOKING ============ -->
+  <section class="section book" id="book">
+    <div class="container">
+      <div class="section__head">
+        <p class="eyebrow" data-i18n="book_eyebrow">Booking</p>
+        <h2 class="section__title" data-i18n="book_title">Reserve Your Time</h2>
+        <p class="section__lede" data-i18n="book_lede">Pick a service and a time that works for you. Confirmation arrives by email.</p>
+      </div>
+
+      <div class="book__frame">
+        <!--
+          ===== BOOKSY EMBED =====
+          Replace the contents of this div with your Booksy embed code:
+          1. Log in at https://biz.booksy.com
+          2. Marketing → Tools → Website widget → copy the <iframe> or <script>
+          3. Paste it in place of the placeholder below.
+          If you'd rather use Calendly or Square Appointments, swap the embed here.
+        -->
+        <div class="book__placeholder" id="booksy-embed">
+          <h3 data-i18n="book_ph_title">Booking widget goes here</h3>
+          <p data-i18n-html="book_ph_desc_html">Paste your Booksy (or Calendly / Square) embed code into <code>index.html</code> where you see <code>id="booksy-embed"</code>.</p>
+          <a class="btn btn--primary" href="https://booksy.com" target="_blank" rel="noopener" data-i18n="book_ph_link">Open Booksy in a new tab →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ LOCATION ============ -->
+  <section class="section location" id="location">
+    <div class="container">
+      <div class="section__head">
+        <p class="eyebrow" data-i18n="location_eyebrow">Find Me</p>
+        <h2 class="section__title" data-i18n="location_title">The Studio</h2>
+      </div>
+
+      <div class="location__grid">
+        <div class="location__info">
+          <h3 data-i18n="location_addr_heading">Address</h3>
+          <p data-i18n-html="location_addr_html">
+            <strong>Sand Studio</strong><br />
+            [Street address]<br />
+            Vilnius, Lithuania
+          </p>
+
+          <h3 data-i18n="location_hours_heading">Hours</h3>
+          <p data-i18n-html="location_hours_html">
+            Tue – Fri &nbsp;· &nbsp;10am – 7pm<br />
+            Saturday &nbsp;·&nbsp; 9am – 5pm<br />
+            Sun – Mon &nbsp;·&nbsp; Closed
+          </p>
+
+          <a class="btn btn--ghost" href="https://maps.google.com/?q=Vilnius+city+center" target="_blank" rel="noopener" data-i18n="location_directions">Get directions →</a>
+        </div>
+
+        <div class="location__map">
+          <!--
+            ===== GOOGLE MAPS EMBED =====
+            To show the real address:
+            1. Go to https://www.google.com/maps
+            2. Search the studio address → Share → Embed a map → Copy HTML
+            3. Replace the <iframe> below with the one you copied.
+          -->
+          <iframe
+            title="Studio location on Google Maps"
+            src="https://www.google.com/maps?q=Vilnius+Lithuania&output=embed"
+            width="100%"
+            height="100%"
+            style="border:0"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade">
+          </iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <div class="footer__brand">
+        <span class="nav__mark">S</span>
+        <span>sandstudio.lt</span>
+      </div>
+      <p class="footer__meta">© <span id="year"></span> <span data-i18n="footer_meta">sandstudio.lt · All rights reserved.</span></p>
+      <div class="footer__links">
+        <a href="#services" data-i18n="nav_services">Services</a>
+        <a href="#gallery" data-i18n="nav_gallery">Gallery</a>
+        <a href="#about" data-i18n="nav_about">About</a>
+        <a href="#contact" data-i18n="nav_contact">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============ LIGHTBOX ============ -->
+  <div class="lightbox" id="lightbox" aria-hidden="true" role="dialog" aria-label="Image preview">
+    <button class="lightbox__close" aria-label="Close">×</button>
+    <button class="lightbox__prev" aria-label="Previous image">‹</button>
+    <img class="lightbox__img" src="" alt="" />
+    <button class="lightbox__next" aria-label="Next image">›</button>
+  </div>
+
+  <script src="script.js" defer></script>
+</body>
+</html>
