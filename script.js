@@ -5,6 +5,45 @@
 (function () {
   'use strict';
 
+  /* ---------------- Dynamic gallery loader ---------------- */
+  (function loadGallery() {
+    var grid = document.getElementById('gallery-grid');
+    if (!grid) return;
+    var loaded = [], i = 1, pending = 0, done = false;
+
+    function addItem(n) {
+      var btn = document.createElement('button');
+      btn.className = 'gallery__item';
+      btn.setAttribute('data-src', 'images/' + n + '.jpg');
+      var img = document.createElement('img');
+      img.src = 'images/' + n + '.jpg';
+      img.alt = 'Sand Studio nail work — ' + n;
+      img.loading = 'lazy';
+      btn.appendChild(img);
+      grid.appendChild(btn);
+    }
+
+    function probe(n) {
+      pending++;
+      var img = new Image();
+      img.onload  = function() { loaded.push(n); finish(); };
+      img.onerror = function() { done = true; finish(); };
+      img.src = 'images/' + n + '.jpg';
+    }
+
+    function finish() {
+      pending--;
+      if (done && pending === 0) {
+        loaded.sort(function(a,b){ return a-b; });
+        loaded.forEach(addItem);
+        // re-init lightbox after gallery is built
+        if (typeof initLightbox === 'function') initLightbox();
+      }
+    }
+
+    for (; i <= 100; i++) probe(i);
+  })();
+
   /* ---------------- i18n dictionary ---------------- */
   var translations = {
     en: {
@@ -313,45 +352,48 @@
   updateScrollspy();
 
   /* ---------------- Gallery lightbox ---------------- */
-  var gallery = document.querySelectorAll('.gallery__item');
-  var lb      = document.getElementById('lightbox');
-  if (gallery.length && lb) {
-    var lbImg  = lb.querySelector('.lightbox__img');
-    var lbNext = lb.querySelector('.lightbox__next');
-    var lbPrev = lb.querySelector('.lightbox__prev');
-    var lbClose = lb.querySelector('.lightbox__close');
-    var index  = 0;
-    var items  = Array.prototype.map.call(gallery, function (el) {
-      return { full: el.dataset.src || el.querySelector('img').src, alt: el.querySelector('img').alt };
-    });
+  var lb = document.getElementById('lightbox');
+  var lbImg, lbNext, lbPrev, lbClose, lbIndex = 0, lbItems = [];
 
-    function open(i) {
-      index = (i + items.length) % items.length;
-      lbImg.src = items[index].full;
-      lbImg.alt = items[index].alt;
+  if (lb) {
+    lbImg   = lb.querySelector('.lightbox__img');
+    lbNext  = lb.querySelector('.lightbox__next');
+    lbPrev  = lb.querySelector('.lightbox__prev');
+    lbClose = lb.querySelector('.lightbox__close');
+
+    function lbOpen(i) {
+      lbIndex = (i + lbItems.length) % lbItems.length;
+      lbImg.src = lbItems[lbIndex].full;
+      lbImg.alt = lbItems[lbIndex].alt;
       lb.classList.add('is-open');
       lb.setAttribute('aria-hidden', 'false');
       document.body.style.overflow = 'hidden';
     }
-    function close() {
+    function lbClose2() {
       lb.classList.remove('is-open');
       lb.setAttribute('aria-hidden', 'true');
       document.body.style.overflow = '';
     }
 
-    gallery.forEach(function (el, i) {
-      el.addEventListener('click', function () { open(i); });
-    });
-    lbNext.addEventListener('click', function () { open(index + 1); });
-    lbPrev.addEventListener('click', function () { open(index - 1); });
-    lbClose.addEventListener('click', close);
-    lb.addEventListener('click', function (e) { if (e.target === lb) close(); });
-
+    lbNext.addEventListener('click', function () { lbOpen(lbIndex + 1); });
+    lbPrev.addEventListener('click', function () { lbOpen(lbIndex - 1); });
+    lbClose.addEventListener('click', lbClose2);
+    lb.addEventListener('click', function (e) { if (e.target === lb) lbClose2(); });
     document.addEventListener('keydown', function (e) {
       if (!lb.classList.contains('is-open')) return;
-      if (e.key === 'Escape')      close();
-      if (e.key === 'ArrowRight')  open(index + 1);
-      if (e.key === 'ArrowLeft')   open(index - 1);
+      if (e.key === 'Escape')     lbClose2();
+      if (e.key === 'ArrowRight') lbOpen(lbIndex + 1);
+      if (e.key === 'ArrowLeft')  lbOpen(lbIndex - 1);
+    });
+  }
+
+  function initLightbox() {
+    var items = document.querySelectorAll('.gallery__item');
+    lbItems = Array.prototype.map.call(items, function (el) {
+      return { full: el.dataset.src || el.querySelector('img').src, alt: el.querySelector('img').alt };
+    });
+    items.forEach(function (el, i) {
+      el.addEventListener('click', function () { lbOpen(i); });
     });
   }
 })();
