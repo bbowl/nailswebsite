@@ -498,7 +498,7 @@ p  { margin: 0 0 1em; color: var(--ink); }
 }
 .footer__brand { display: flex; align-items: center; gap: 12px; font-family: var(--serif); font-size: 1.1rem; }
 .footer__brand .nav__mark { background: var(--beige); color: var(--brown-deep); }
-.footer__meta { margin: 0; font-size: .88rem; opacity: .7; }
+.footer__meta { margin: 0; font-size: .88rem; color: var(--beige); opacity: .85; }
 .footer__links { display: flex; gap: 20px; font-size: .9rem; }
 .footer__links a { opacity: .8; transition: opacity .2s var(--ease); }
 .footer__links a:hover { opacity: 1; }
